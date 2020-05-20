@@ -51,7 +51,7 @@ Edit the file to configure apaphe to server the global_bank public directory
     </Directory>
 
     #redirect
-    DirectoryIndex /index.php
+    DirectoryIndex index.php
 
 </VirtualHost>
 ```
