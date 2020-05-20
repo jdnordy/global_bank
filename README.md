@@ -10,12 +10,14 @@ Learning PHP with MySQL. A project based off this course on Lynda: PHP with MySQ
 
 #### 1. Configure apache to use virtual hosts by editing httpd.conf
 
+**_NOTE: You'll need to do these configurations in sudo_**
+
 On macOS file is located: `/etc/apache2`
 
 Make a copy of the file so you have the original.
 
 ```
-cp /etc/apache2/httpd.conf /ect/apahce2/httpd-og.conf
+sudo cp /etc/apache2/httpd.conf /ect/apahce2/httpd-og.conf
 ```
 
 Edit the file to include httpd-vhosts.conf and use php 7
@@ -30,7 +32,7 @@ On macOS file is located: `/etc/apache2/extra`
 Make a copy of the file (as done with httpd.conf)
 
 ```
-cp /etc/apache2/extra/httpd-vhosts.conf /ect/apahce2/extra/httpd-vhosts-og.conf
+sudo cp /etc/apache2/extra/httpd-vhosts.conf /ect/apahce2/extra/httpd-vhosts-og.conf
 ```
 
 Edit the file to configure apaphe to server the global_bank public directory
