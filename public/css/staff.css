@@ -46,6 +46,14 @@ navigation ul li {
   margin-right: 1em;
 }
 
+a {
+  color: black;
+}
+
+a:hover {
+  color: blue;
+}
+
 #content {
   width: 90%;
   min-height: 500px;

@@ -34,13 +34,18 @@ $pages = [
     </tr>
     <?php foreach($pages as $page) : ?>
     <tr>
-      <td><?= $page['id'] ?></td>
-      <td><?= $page['position'] ?></td>
+      <td><?= h($page['id']) ?></td>
+      <td><?= h($page['position']) ?></td>
       <td><?= $page['visible'] ? 'true' : 'false' ?></td>
-      <td><?= $page['page_name'] ?></td>
+      <td><?= h($page['page_name']) ?></td>
       <td><a 
         class="action" 
-        href="<?= url_for("staff/pages/show.php?id={$page['id']}&name={$page['name']}") ?>"
+        href="<?= url_for(
+          'staff/pages/show.php?id='
+          . h($page['id'])
+          . '&name='
+          . h($page['name'])
+        ); ?>"
       >View</a></td>
       <td><a class="action" href="">Edit</a></td>
       <td><a class="action" href="">Delete</a></td>
