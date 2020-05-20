@@ -38,7 +38,10 @@ $subjects = [
             <td><?= $subject['position'] ?></td>
             <td><?= $subject['visible'] ? "true" : "false" ?></td>
             <td><?= $subject['menu_name'] ?></td>
-            <td><a class="action" href="<?= url_for("/staff/subjects/show.php?id=" . $subject['id'])?>">View</a></td>
+            <td><a 
+              class="action"
+              href="<?= url_for("/staff/subjects/show.php?id={$subject['id']}&name={$subject['menu_name']}") ?>"
+            >View</a></td>
             <td><a class="action" href="">Edit</a></td>
             <td><a class="action" href="">Delete</a></td>
           </tr>

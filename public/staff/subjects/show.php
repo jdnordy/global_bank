@@ -3,8 +3,9 @@ require_once('../../../private/initialize.php');
 ?>
 
 <?php 
-$page_id = $_GET['id'] ?? '1'; 
-$page_title = "Staff Subjects $page_id";
+$id = $_GET['id'] ?? '1'; 
+$name = $_GET['name'] ?? '';
+$page_title = "Staff Subjects / " . h($name);
 ?>
 
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
@@ -16,8 +17,8 @@ $page_title = "Staff Subjects $page_id";
     <a class="action" href="<?= url_for('staff/pages/edit.php?id=' . u($id)) ?>">Edit</a>
     <a class="action" href="<?= url_for('staff/pages/delete.php?id=' . u($id)) ?>">Delete</a>
   </div>
-  
-  You're on subject #<?= h($page_id) ?>!
+
+  You're on subject #<?= h($id) ?>!
 </div>
 
 

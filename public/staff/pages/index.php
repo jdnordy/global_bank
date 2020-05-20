@@ -15,6 +15,7 @@ $pages = [
 ?>
 
 <div id="content">
+  <h1>Pages</h1>
   <div class="actions">
     <a class="action" href="">Create New Page</a>
   </div>
@@ -31,13 +32,16 @@ $pages = [
     </tr>
     <?php foreach($pages as $page) : ?>
     <tr>
-      <th><?= $page['id'] ?></th>
-      <th><?= $page['position'] ?></th>
-      <th><?= $page['visible'] ? 'true' : 'false' ?></th>
-      <th><?= $page['page_name'] ?></th>
-      <th><a class="action" href="<?= url_for('staff/pages/show.php?id=' . $page['id']) ?>">View</a></th>
-      <th><a class="action" href="">Edit</a></th>
-      <th><a class="action" href="">Delete</a></th>
+      <td><?= $page['id'] ?></td>
+      <td><?= $page['position'] ?></td>
+      <td><?= $page['visible'] ? 'true' : 'false' ?></td>
+      <td><?= $page['page_name'] ?></td>
+      <td><a 
+        class="action" 
+        href="<?= url_for("staff/pages/show.php?id={$page['id']}&name={$page['name']}") ?>"
+      >View</a></td>
+      <td><a class="action" href="">Edit</a></td>
+      <td><a class="action" href="">Delete</a></td>
     </tr>
     <?php endforeach; ?>
   </table>
