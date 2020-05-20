@@ -3,6 +3,8 @@ require_once('../../../private/initialize.php');
 ?>
 
 <?php $page_title = 'Staff Pages'; ?>
+
+<!-- STAFF HEADER -->
 <?php include(SHARED_PATH.'/staff_header.php'); ?>
 
 <?php 
@@ -47,5 +49,6 @@ $pages = [
   </table>
 
 </div>
-    
+
+<!-- STAFF FOOTER -->
 <?php include(SHARED_PATH.'/staff_footer.php'); ?>

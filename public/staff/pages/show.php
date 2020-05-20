@@ -3,14 +3,18 @@ require_once('../../../private/initialize.php');
 ?>
 
 <?php
-$id = $_GET['id'] ?? '1';
-$name = $_GET['name'] ?? '';
-$page_title = 'Staff Pages / ' . h($name); 
+// check for params and escape html
+$id = $_GET['id'] ? h($_GET['id']) : '1';
+$name = $_GET['name'] ? h($_GET['name']) : '';
+// set page title
+$page_title = 'Staff Pages / ' . $name; 
 ?>
+
+<!-- STAFF HEADER -->
 <?php include(SHARED_PATH.'/staff_header.php'); ?>
 
 <div id="content">
-  <a href="<?= url_for('staff/pages') ?>">Back</a>
+  <a href="<?= url_for('staff/pages') ?>">Back to Pages</a>
 
   <div class="actions">
     <a class="action" href="<?= url_for('staff/pages/edit.php?id=' . u($id)) ?>">Edit</a>
@@ -18,8 +22,9 @@ $page_title = 'Staff Pages / ' . h($name);
   </div>
 
   <p>
-    You are on page id #<?= h($id) ?>!
+    You are on page id #<?= $id ?>!
   </p>
 </div>
 
+<!-- STAFF FOOTER -->
 <?php include(SHARED_PATH.'/staff_footer.php'); ?>

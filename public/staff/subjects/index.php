@@ -3,6 +3,8 @@ require_once('../../../private/initialize.php');
 ?>
 
 <?php $page_title = 'Staff Subjects'; ?>
+
+<!-- STAFF HEADER -->
 <?php include(SHARED_PATH.'/staff_header.php'); ?>
 
 <?php
@@ -34,13 +36,19 @@ $subjects = [
       <tr>
       <?php foreach ($subjects as $subject) : ?>
           <tr>
-            <td><?= $subject['id'] ?></td>
-            <td><?= $subject['position'] ?></td>
+            <td><?= h($subject['id']) ?></td>
+            <td><?= h($subject['position']) ?></td>
             <td><?= $subject['visible'] ? "true" : "false" ?></td>
-            <td><?= $subject['menu_name'] ?></td>
+            <td><?= h($subject['menu_name']) ?></td>
             <td><a 
               class="action"
-              href="<?= url_for("/staff/subjects/show.php?id={$subject['id']}&name={$subject['menu_name']}") ?>"
+              href="<?= url_for(
+                  '/staff/subjects/show.php?id='
+                  . h(u($subject['id']))
+                  . '&name='
+                  . h(u($subject['menu_name'])) 
+                )
+              ?>"
             >View</a></td>
             <td><a class="action" href="">Edit</a></td>
             <td><a class="action" href="">Delete</a></td>
@@ -51,4 +59,5 @@ $subjects = [
   </div>
 </div>
  
+<!-- STAFF FOOTER -->
 <?php include(SHARED_PATH.'/staff_footer.php'); ?>
