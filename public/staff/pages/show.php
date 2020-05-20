@@ -2,23 +2,23 @@
 require_once('../../../private/initialize.php');
 ?>
 
-<?php 
-$page_id = $_GET['id'] ?? '1'; 
-$page_title = "Staff Subjects $page_id";
+<?php
+$id = $_GET['id'];
+$page_title = 'Staff Pages ' . h($id); 
 ?>
-
-<?php include(SHARED_PATH . '/staff_header.php'); ?>
+<?php include(SHARED_PATH.'/staff_header.php'); ?>
 
 <div id="content">
-  <a href="<?= url_for('staff/subjects') ?>">Back</a>
+  <a href="<?= url_for('staff/pages') ?>">Back</a>
 
   <div class="actions">
     <a class="action" href="<?= url_for('staff/pages/edit.php?id=' . u($id)) ?>">Edit</a>
     <a class="action" href="<?= url_for('staff/pages/delete.php?id=' . u($id)) ?>">Delete</a>
   </div>
   
-  You're on subject #<?= h($page_id) ?>!
+  <p>
+    You are on page id #<?= h($id) ?>!
+  </p>
 </div>
 
-
-<?php include(SHARED_PATH . '/staff_footer.php'); ?>
+<?php include(SHARED_PATH.'/staff_footer.php'); ?>
