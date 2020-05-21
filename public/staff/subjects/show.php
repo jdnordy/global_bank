@@ -14,7 +14,7 @@ $page_title = "Staff Subjects / " . $name;
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="content">
-  <a href="<?= url_for('staff/subjects') ?>">Back to Subjects</a>
+  <a href="<?= url_for('staff/subjects/') ?>">&laquo; Back to Subjects</a>
 
   <div class="actions">
     <a class="action" href="<?= url_for('staff/pages/edit.php?id=' . u($id)) ?>">Edit</a>

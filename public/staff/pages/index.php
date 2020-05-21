@@ -44,7 +44,7 @@ $pages = [
           'staff/pages/show.php?id='
           . h($page['id'])
           . '&name='
-          . h($page['name'])
+          . h($page['page_name'])
         ); ?>"
       >View</a></td>
       <td><a class="action" href="">Edit</a></td>

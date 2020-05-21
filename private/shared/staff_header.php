@@ -8,7 +8,7 @@
 
 <html lang="en">
   <head>
-    <title><?="GBI - $page_title"?></title>
+    <title><?="GBI - " . h($page_title) ?></title>
     <meta charset="utf-8">
     <link rel="stylesheet" media="all" href="<?=url_for("css/staff.css")?>" />
   </head>
@@ -20,6 +20,6 @@
 
     <navigation>
       <ul>
-        <li><a href="<?= url_for("staff") ?>">Menu</a></li>
+        <li><a href="<?= url_for("staff/") ?>">Menu</a></li>
       </ul>
     </navigation>
