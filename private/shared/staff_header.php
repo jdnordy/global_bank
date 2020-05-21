@@ -10,7 +10,7 @@
   <head>
     <title><?="GBI - " . h($page_title) ?></title>
     <meta charset="utf-8">
-    <link rel="stylesheet" media="all" href="<?=url_for("css/staff.css")?>" />
+    <link preload rel="stylesheet" media="all" href="<?=url_for("css/staff.css")?>" />
   </head>
 
   <body>

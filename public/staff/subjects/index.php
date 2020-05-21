@@ -38,7 +38,7 @@ $subjects = [
           <tr>
             <td><?= h($subject['id']) ?></td>
             <td><?= h($subject['position']) ?></td>
-            <td><?= $subject['visible'] ? "true" : "false" ?></td>
+            <td><?= $subject['visible'] === '1' ? "true" : "false" ?></td>
             <td><?= h($subject['menu_name']) ?></td>
             <td><a 
               class="action"
@@ -50,7 +50,7 @@ $subjects = [
                 )
               ?>"
             >View</a></td>
-            <td><a class="action" href="<?= url_for("/staff/subjects/edit.php?id=" . h($subject['id'])) ?>">Edit</a></td>
+            <td><a class="action" href="<?= url_for("/staff/subjects/edit.php?id=" . h(u($subject['id'])) . '&name=' . h(u($subject['name']))) ?>">Edit</a></td>
             <td><a class="action" href="">Delete</a></td>
           </tr>
       <?php endforeach; ?>

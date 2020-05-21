@@ -36,7 +36,7 @@ $pages = [
     <tr>
       <td><?= h($page['id']) ?></td>
       <td><?= h($page['position']) ?></td>
-      <td><?= $page['visible'] ? 'true' : 'false' ?></td>
+      <td><?= $page['visible'] === '1' ? 'true' : 'false' ?></td>
       <td><?= h($page['page_name']) ?></td>
       <td><a 
         class="action" 

@@ -4,7 +4,7 @@ require_once('../../../private/initialize.php');
 
 <?php
 // check for params and escape html
-$id = $_GET['id'] ? h($_GET['id']) : '1';
+$id = isset($_GET['id']) ? h($_GET['id']) : '1';
 $name = $_GET['name'] ? h($_GET['name']) : '';
 // set page title
 $page_title = 'Staff Pages / ' . $name; 
