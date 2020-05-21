@@ -8,4 +8,7 @@ define("SHARED_PATH", PRIVATE_PATH."/shared");
 define("WWW_ROOT", "http://globe_bank");
 
 require_once('functions.php');
+require_once('db.php');
+
+$db = db_connect();
 ?>
