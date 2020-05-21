@@ -43,11 +43,11 @@ $pages = [
         href="<?= url_for(
           'staff/pages/show.php?id='
           . h($page['id'])
-          . '&name='
+          . '&page_name='
           . h($page['page_name'])
         ); ?>"
       >View</a></td>
-      <td><a class="action" href="">Edit</a></td>
+      <td><a class="action" href="<?= url_for("/staff/pages/edit.php?id=" . h(u($page['id'])) . '&page_name=' . h(u($page['page_name']))) ?>">Edit</a></td>
       <td><a class="action" href="">Delete</a></td>
     </tr>
     <?php endforeach; ?>
