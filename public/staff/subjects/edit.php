@@ -10,7 +10,7 @@ $menu_name = '';
 $position = '';
 $visible = '';
 
-// FORM PROCESSING ON POSTS
+// FORM PROCESSING ON POST REQUEST
 if (is_post_request()) {
   $menu_name = isset($_POST['menu_name']) ? h($_POST['menu_name']) : '';
   $position = isset($_POST['position']) ? h($_POST['position']) : '1';
@@ -26,7 +26,6 @@ if (is_post_request()) {
 
 <?php 
 // check for param and html escape 
-$id = isset($_GET['id']) ? h($_GET['id']) : '1'; 
 $name = isset($_GET['name']) ? h($_GET['name']) : '';
 $page_title = 'Edit Subject : ' . $name; 
 ?>
@@ -37,9 +36,9 @@ $page_title = 'Edit Subject : ' . $name;
   <a class="back-link" href="<?php echo url_for('/staff/subjects/index.php'); ?>">&laquo; Back to Subjects</a>
 
   <div class="subject edit">
-    <h1>Edit Subject</h1>
+    <h1>Edit Subject : <?= $name ?></h1>
 
-    <form action="<?= url_for('staff/subjects/edit.php?id=' . u($id)) ?>" method="post">
+    <form action="<?= url_for('staff/subjects/edit.php?id=' . u($id)) . '&name=' , u($name) ?>" method="post">
       <dl>
         <dt>Menu Name</dt>
         <dd><input type="text" name="menu_name" value="<?= $menu_name ?>" /></dd>
@@ -62,7 +61,7 @@ $page_title = 'Edit Subject : ' . $name;
         </dd>
       </dl>
       <div id="operations">
-        <input type="submit" value="Create Subject" />
+        <input type="submit" value="Update Subject" />
       </div>
     </form>
 

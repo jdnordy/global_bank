@@ -19,7 +19,7 @@ $pages = [
 <div id="content">
   <h1>Pages</h1>
   <div class="actions">
-    <a class="action" href="">Create New Page</a>
+    <a class="action" href="<?= url_for('staff/pages/new.php') ?>">Create New Page</a>
   </div>
 
   <table class="list">

@@ -50,7 +50,7 @@ $subjects = [
                 )
               ?>"
             >View</a></td>
-            <td><a class="action" href="<?= url_for("/staff/subjects/edit.php?id=" . h(u($subject['id'])) . '&name=' . h(u($subject['name']))) ?>">Edit</a></td>
+            <td><a class="action" href="<?= url_for("/staff/subjects/edit.php?id=" . h(u($subject['id'])) . '&name=' . h(u($subject['menu_name']))) ?>">Edit</a></td>
             <td><a class="action" href="">Delete</a></td>
           </tr>
       <?php endforeach; ?>
