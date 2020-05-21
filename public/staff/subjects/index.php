@@ -8,12 +8,12 @@ require_once('../../../private/initialize.php');
 <?php include(SHARED_PATH.'/staff_header.php'); ?>
 
 <?php
-$subjects = [
-  ['id' => '1', 'position' => '1', 'visible' => '1', 'menu_name' => 'About Globe Bank'],
-  ['id' => '2', 'position' => '2', 'visible' => '1', 'menu_name' => 'Consumer'],
-  ['id' => '3', 'position' => '3', 'visible' => '1', 'menu_name' => 'Small Business'],
-  ['id' => '4', 'position' => '4', 'visible' => '1', 'menu_name' => 'Commercial'],
-]
+$subject_set = find_all_subjects();
+
+$subjects = [];
+while ($subject = $subject_set->fetch_assoc()) {
+  array_push($subjects, $subject);
+}
 ?>
 
 <div id="content">
@@ -56,6 +56,10 @@ $subjects = [
       <?php endforeach; ?>
     </table>
     
+    <?php
+      $subject_set->free();
+    ?>
+
   </div>
 </div>
  

@@ -9,6 +9,7 @@ define("WWW_ROOT", "http://globe_bank");
 
 require_once('functions.php');
 require_once('db.php');
+require_once('query_functions.php');
 
 $db = db_connect();
 ?>
