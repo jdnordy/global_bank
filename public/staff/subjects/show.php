@@ -17,8 +17,8 @@ $page_title = "Staff Subjects / " . $name;
   <a href="<?= url_for('staff/subjects/') ?>">&laquo; Back to Subjects</a>
 
   <div class="actions">
-    <a class="action" href="<?= url_for('staff/pages/edit.php?id=' . u($id)) ?>">Edit</a>
-    <a class="action" href="<?= url_for('staff/pages/delete.php?id=' . u($id)) ?>">Delete</a>
+    <a class="action" href="<?= url_for('staff/subjects/edit.php?id=' . u($id)) ?>">Edit</a>
+    <a class="action" href="<?= url_for('staff/subjects/delete.php?id=' . u($id)) ?>">Delete</a>
   </div>
 
   You're on subject #<?= $id ?>!
