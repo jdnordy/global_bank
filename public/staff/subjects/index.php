@@ -9,11 +9,6 @@ require_once('../../../private/initialize.php');
 
 <?php
 $subject_set = find_all_subjects();
-
-$subjects = [];
-while ($subject = $subject_set->fetch_assoc()) {
-  array_push($subjects, $subject);
-}
 ?>
 
 <div id="content">
@@ -34,7 +29,7 @@ while ($subject = $subject_set->fetch_assoc()) {
         <th>&nbsp;</th>
         <th>&nbsp;</th>
       <tr>
-      <?php foreach ($subjects as $subject) : ?>
+      <?php while ($subject = $subject_set->fetch_assoc()) : ?>
           <tr>
             <td><?= h($subject['id']) ?></td>
             <td><?= h($subject['position']) ?></td>
@@ -53,7 +48,7 @@ while ($subject = $subject_set->fetch_assoc()) {
             <td><a class="action" href="<?= url_for("/staff/subjects/edit.php?id=" . h(u($subject['id'])) . '&name=' . h(u($subject['menu_name']))) ?>">Edit</a></td>
             <td><a class="action" href="">Delete</a></td>
           </tr>
-      <?php endforeach; ?>
+        <?php endwhile; ?>
     </table>
     
     <?php

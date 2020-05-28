@@ -8,12 +8,7 @@ require_once('../../../private/initialize.php');
 <?php include(SHARED_PATH.'/staff_header.php'); ?>
 
 <?php 
-$pages = [
-  ['id' => '1', 'position' => '1', 'visible' => '1', 'page_name' => 'Globe Bank'],
-  ['id' => '2', 'position' => '2', 'visible' => '1', 'page_name' => 'History'],
-  ['id' => '3', 'position' => '3', 'visible' => '1', 'page_name' => 'Leadership'],
-  ['id' => '4', 'position' => '4', 'visible' => '1', 'page_name' => 'Contact Us'],
-]
+$pages_set = find_all_pages();
 ?>
 
 <div id="content">
@@ -32,7 +27,7 @@ $pages = [
       <th>&nbsp;</th>
       <th>&nbsp;</th>
     </tr>
-    <?php foreach($pages as $page) : ?>
+    <?php while ($page = $pages_set->fetch_assoc()) : ?>
     <tr>
       <td><?= h($page['id']) ?></td>
       <td><?= h($page['position']) ?></td>
@@ -50,8 +45,12 @@ $pages = [
       <td><a class="action" href="<?= url_for("/staff/pages/edit.php?id=" . h(u($page['id'])) . '&page_name=' . h(u($page['page_name']))) ?>">Edit</a></td>
       <td><a class="action" href="">Delete</a></td>
     </tr>
-    <?php endforeach; ?>
+    <?php endwhile; ?>
   </table>
+
+  <?php
+    $pages_set->free();
+  ?>
 
 </div>
 
