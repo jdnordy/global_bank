@@ -15,7 +15,7 @@ function find_all_pages() {
     FROM pages p
     INNER JOIN subjects s 
     ON p.subject_id = s.id 
-    ORDER BY p.position ASC;
+    ORDER BY p.subject_id ASC, p.position ASC;
   ";
   $result_set = $db->query($sql);
   confirm_result_set($result_set);

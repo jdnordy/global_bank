@@ -20,6 +20,8 @@ $pages_set = find_all_pages();
   <table class="list">
     <tr>
       <th>Id</th>
+      <th>Subject Id</th>
+      <th>Subject Name</th>
       <th>Position</th>
       <th>Visible</th>
       <th>Page Name</th>
@@ -30,6 +32,8 @@ $pages_set = find_all_pages();
     <?php while ($page = $pages_set->fetch_assoc()) : ?>
     <tr>
       <td><?= h($page['id']) ?></td>
+      <td><?= h($page['subject_id']) ?></td>
+      <td><?= h($page['menu_name']) ?></td>
       <td><?= h($page['position']) ?></td>
       <td><?= $page['visible'] === '1' ? 'true' : 'false' ?></td>
       <td><?= h($page['page_name']) ?></td>
