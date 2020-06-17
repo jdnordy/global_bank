@@ -72,4 +72,6 @@ if (is_post_request()) {
 
 </div>
 
+<?php $subject_set->free(); ?>
+
 <?php include(SHARED_PATH . '/staff_footer.php'); ?>

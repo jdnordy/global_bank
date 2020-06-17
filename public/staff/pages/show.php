@@ -23,7 +23,7 @@ $page_title = 'Staff Pages / ' . h($page['page_name']);
   <a href="<?= url_for('staff/pages/') ?>">&laquo; Back to Pages</a>
 
   <div class="actions">
-    <a class="action" href="<?= url_for('staff/pages/edit.php?id=' . u($id) . '&page_name=' . u($page_name)) ?>">Edit</a>
+    <a class="action" href="<?= url_for('staff/pages/edit.php?id=' . u($id)) ?>">Edit</a>
     <a class="action" href="<?= url_for('staff/pages/delete.php?id=' . u($id)) ?>">Delete</a>
   </div>
 

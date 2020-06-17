@@ -38,7 +38,7 @@ $pages_set = find_all_pages();
       <td><?= $page['visible'] === '1' ? 'true' : 'false' ?></td>
       <td><?= h($page['page_name']) ?></td>
       <td><a class="action" href="<?= url_for('staff/pages/show.php?id=' . h(u($page['id']))); ?>">View</a></td>
-      <td><a class="action" href="<?= url_for("/staff/pages/edit.php?id=" . h(u($page['id'])) . '&page_name=' . h(u($page['page_name']))) ?>">Edit</a></td>
+      <td><a class="action" href="<?= url_for("/staff/pages/edit.php?id=" . h(u($page['id']))) ?>">Edit</a></td>
       <td><a class="action" href="">Delete</a></td>
     </tr>
     <?php endwhile; ?>
