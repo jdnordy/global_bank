@@ -9,17 +9,25 @@ $id = h($_GET['id']);
 
 // FORM PROCESSING ON POST REQUEST
 if (is_post_request()) {
-  $menu_name = $_POST['menu_name'] ?? '';
-  $position = $_POST['position'] ?? '1';
-  $visible = $_POST['visible'] ?? '1';
+  $subject = [];
 
-  update_subject($id, $menu_name, $position, $visible);
+  $subject['menu_name'] = $_POST['menu_name'] ?? '';
+  $subject['position'] = $_POST['position'] ?? '1';
+  $subject['visible'] = $_POST['visible'] ?? '1';
+  $subject['id'] = $id;
+
+  update_subject($subject);
   redirect_to('staff/subjects/show.php?id=' . $id);
 } else {
-// GET SUBJECT DATA FROM DATABASE IF GET REQUEST
+  // GET SUBJECT DATA FROM DATABASE IF GET REQUEST
   $result = get_subject_by_id($id);
   $subject = $result->fetch_assoc();
   $result->free();
+
+  // FIND NUMBER OF SUBJECTS IN DATA BASE
+  $subject_set = find_all_subjects();
+  $subject_count = $subject_set->num_rows;
+  $subject_set->free();
 }
 
 ?>
@@ -46,7 +54,7 @@ $page_title = 'Edit Subject : ' . $menu_name;
         <dt>Position</dt>
         <dd>
           <select name="position">
-            <?php for($i = 1; $i <= 4; $i++) : ?>
+            <?php for($i = 1; $i <= $subject_count; $i++) : ?>
               <option <?= $i == $subject['position'] ? 'selected' : '' ?> value="<?= $i ?>"><?= $i ?></option>
             <?php endfor; ?>
           </select>

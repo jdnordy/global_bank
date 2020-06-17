@@ -43,11 +43,14 @@ function get_page_by_id($id) {
   return $result_set;
 }
 
-function insert_subject($menu_name, $position, $visible) {
+function insert_subject($subject) {
   global $db;
+  $menu_name = $subject['menu_name'];
+  $position = $subject['position'];
+  $visible = $subject['visible'];
   $sql = "
     INSERT INTO subjects (menu_name, position, visible)
-    VALUES ('$menu_name', '$position', '$visible')
+    VALUES ('$menu_name, '$position, '$visible')
   ";
   $result = $db->query($sql);
   if ($result) {
@@ -60,8 +63,12 @@ function insert_subject($menu_name, $position, $visible) {
   }
 }
 
-function update_subject($id, $menu_name, $position, $visible) {
+function update_subject($subject) {
   global $db;
+  $menu_name = $subject['menu_name'];
+  $position = $subject['position'];
+  $visible = $subject['visible'];
+  $id = $subject['id'];
   $sql = "
     UPDATE subjects
     SET menu_name = '$menu_name', position = '$position', visible = '$visible'
