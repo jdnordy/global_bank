@@ -75,6 +75,24 @@ function update_page($page) {
   }
 }
 
+function delete_page_by_id($id) {
+  global $db;
+  $sql = "
+    DELETE FROM pages
+    WHERE id = '$id'
+    LIMIT 1
+  ";
+  $result = $db->query($sql);
+  if ($result) {
+    return true;
+  } else {
+    // DELETE failed
+    echo $db->error;
+    db_disconnect($db);
+    exit;
+  }
+}
+
 /**
  * *********
  * SUBJECT QUERY FUNCTIONS
