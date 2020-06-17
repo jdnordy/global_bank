@@ -56,6 +56,26 @@ function insert_subject($menu_name, $position, $visible) {
     // INSERT failed
     echo $db->error;
     db_disconnect($db);
+    exit;
+  }
+}
+
+function update_subject($id, $menu_name, $position, $visible) {
+  global $db;
+  $sql = "
+    UPDATE subjects
+    SET menu_name = '$menu_name', position = '$position', visible = '$visible'
+    WHERE id = '$id'
+    LIMIT 1;
+  ";
+  $result = $db->query($sql);
+  if ($result) {
+    return true;
+  } else {
+    // INSERT failed
+    echo $db->error;
+    db_disconnect($db);
+    exit;
   }
 }
 

@@ -6,28 +6,27 @@ if (!isset($_GET['id'])) {
   redirect_to('staff/subjects/index.php');
 }
 $id = h($_GET['id']);
-$menu_name = '';
-$position = '';
-$visible = '';
 
 // FORM PROCESSING ON POST REQUEST
 if (is_post_request()) {
-  $menu_name = isset($_POST['menu_name']) ? h($_POST['menu_name']) : '';
-  $position = isset($_POST['position']) ? h($_POST['position']) : '1';
-  $visible = isset($_POST['visible']) ? h($_POST['visible']) : '1';
+  $menu_name = $_POST['menu_name'] ?? '';
+  $position = $_POST['position'] ?? '1';
+  $visible = $_POST['visible'] ?? '1';
 
-  // echo "Form parameters <br />";
-  // echo "Menu name: " . $menu_name . "<br />";
-  // echo "Position: $position <br />";
-  // echo "Visible: " . ($visible === '1' ? 'true' : 'false') . "<br />";
+  update_subject($id, $menu_name, $position, $visible);
+  redirect_to('staff/subjects/show.php?id=' . $id);
+} else {
+// GET SUBJECT DATA FROM DATABASE IF GET REQUEST
+  $result = get_subject_by_id($id);
+  $subject = $result->fetch_assoc();
+  $result->free();
 }
 
 ?>
 
 <?php 
 // check for param and html escape 
-$name = isset($_GET['name']) ? h($_GET['name']) : '';
-$page_title = 'Edit Subject : ' . $name; 
+$page_title = 'Edit Subject : ' . $menu_name; 
 ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
@@ -36,19 +35,19 @@ $page_title = 'Edit Subject : ' . $name;
   <a class="back-link" href="<?php echo url_for('/staff/subjects/index.php'); ?>">&laquo; Back to Subjects</a>
 
   <div class="subject edit">
-    <h1>Edit Subject : <?= $name ?></h1>
+    <h1>Edit Subject : <?= h($subject['menu_name']) ?></h1>
 
-    <form action="<?= url_for('staff/subjects/edit.php?id=' . u($id)) . '&name=' , u($name) ?>" method="post">
+    <form action="<?= url_for('staff/subjects/edit.php?id=' . u($id)) ?>" method="post">
       <dl>
         <dt>Menu Name</dt>
-        <dd><input type="text" name="menu_name" value="<?= $menu_name ?>" /></dd>
+        <dd><input type="text" name="menu_name" value="<?= h($subject['menu_name']) ?>" /></dd>
       </dl>
       <dl>
         <dt>Position</dt>
         <dd>
           <select name="position">
             <?php for($i = 1; $i <= 4; $i++) : ?>
-              <option <?= $i == $position ? 'selected' : '' ?> value="<?= $i ?>"><?= $i ?></option>
+              <option <?= $i == $subject['position'] ? 'selected' : '' ?> value="<?= $i ?>"><?= $i ?></option>
             <?php endfor; ?>
           </select>
         </dd>
@@ -57,7 +56,7 @@ $page_title = 'Edit Subject : ' . $name;
         <dt>Visible</dt>
         <dd>
           <input type="hidden" name="visible" value="0" />
-          <input type="checkbox" name="visible" value="1" <?= $visible == '1' ? 'checked' : '' ?>/>
+          <input type="checkbox" name="visible" value="1" <?= $subject['visible'] == '1' ? 'checked' : '' ?>/>
         </dd>
       </dl>
       <div id="operations">

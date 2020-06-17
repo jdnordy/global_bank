@@ -21,7 +21,7 @@ include(SHARED_PATH . '/staff_header.php');
   <a href="<?= url_for('staff/subjects/') ?>">&laquo; Back to Subjects</a>
 
   <div class="actions">
-    <a class="action" href="<?= url_for('staff/subjects/edit.php?id=' . u($id) . '&name=' . u(h($subject['menu_name']))) ?>">Edit</a>
+    <a class="action" href="<?= url_for('staff/subjects/edit.php?id=' . u($id)) ?>">Edit</a>
     <a class="action" href="<?= url_for('staff/subjects/delete.php?id=' . u($id) . '&name=' . u(h($subject['menu_name']))) ?>">Delete</a>
   </div>
 
