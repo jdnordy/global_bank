@@ -33,7 +33,7 @@ if (is_post_request()) {
 
     <form action="<?= url_for('staff/pages/new.php') ?>" method="post">
       <dl>
-        <dt>Menu Name</dt>
+        <dt>Page Name</dt>
         <dd><input type="text" name="page_name" value="" /></dd>
       </dl>
       <dl>

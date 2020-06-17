@@ -50,6 +50,31 @@ function insert_page($page) {
   }
 }
 
+function update_page($page) {
+  global $db;
+  $page_name = $page['page_name'];
+  $subject_id = $page['subject_id'];
+  $position = $page['position'];
+  $visible = $page['visible'];
+  $id = $page['id'];
+
+  $sql = "
+    UPDATE pages
+    SET page_name='$page_name', subject_id='$subject_id', position='$position', visible='$visible'
+    WHERE id='$id'
+    LIMIT 1;
+  ";
+  $result = $db->query($sql);
+  if ($result) {
+    return true;
+  } else {
+    // UPDATE failed
+    echo $db->error;
+    db_disconnect($db);
+    exit;
+  }
+}
+
 /**
  * *********
  * SUBJECT QUERY FUNCTIONS
