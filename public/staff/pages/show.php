@@ -27,9 +27,21 @@ $page_title = 'Staff Pages / ' . h($page['page_name']);
     <a class="action" href="<?= url_for('staff/pages/delete.php?id=' . u($id)) ?>">Delete</a>
   </div>
 
-  <p>
-    You are on page id #<?= $id ?>!
-  </p>
+  <h1>Page: <?= h($page['page_name']); ?></h1>
+  <div class="attributes">
+    <dl>
+      <dt>Menu Name</dt>
+      <dd><?= h($page['page_name']); ?></dd>
+    </dl>
+    <dl>
+      <dt>Position</dt>
+      <dd><?= h($page['position']); ?></dd>
+    </dl>
+    <dl>
+      <dt>Visible</dt>
+      <dd><?= $page['visible'] == '1' ? 'true' : 'false'; ?></dd>
+    </dl>
+  </div>
 </div>
 
 <!-- STAFF FOOTER -->

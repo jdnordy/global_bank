@@ -1,23 +1,10 @@
 <?php
 
-function find_all_subjects() {
-  global $db;
-  $sql = "SELECT * FROM subjects ";
-  $sql .= "ORDER BY position ASC";
-  $result = $db->query($sql);
-  confirm_result_set($result);
-  return $result;
-}
-
-function get_subject_by_id($id) {
-  global $db;
-  $sql = "SELECT * FROM subjects
-    WHERE id = '$id'
-  ";
-  $result_set = $db->query($sql);
-  confirm_result_set($result_set);
-  return $result_set;
-}
+/**
+ * *********
+ * PAGE QUERY FUNCTIONS
+ * *********
+ */
 
 function find_all_pages() {
   global $db;
@@ -32,11 +19,56 @@ function find_all_pages() {
   return $result_set;
 }
 
-
 function get_page_by_id($id) {
   global $db;
   $sql = "SELECT * FROM pages
    WHERE id = '$id'
+  ";
+  $result_set = $db->query($sql);
+  confirm_result_set($result_set);
+  return $result_set;
+}
+
+function insert_page($page) {
+  global $db;
+  $page_name = $page['page_name'];
+  $subject_id = $page['subject_id'];
+  $position = $page['position'];
+  $visible = $page['visible'];
+  $sql = "
+    INSERT INTO pages (page_name, subject_id, position, visible)
+    VALUES ('$page_name', '$subject_id', '$position', '$visible');
+  ";
+  $result = $db->query($sql);
+  if ($result) {
+    return true;
+  } else {
+    // INSERT failed
+    echo $db->error;
+    db_disconnect($db);
+    exit;
+  }
+}
+
+/**
+ * *********
+ * SUBJECT QUERY FUNCTIONS
+ * *********
+ */
+
+function find_all_subjects() {
+  global $db;
+  $sql = "SELECT * FROM subjects ";
+  $sql .= "ORDER BY position ASC";
+  $result = $db->query($sql);
+  confirm_result_set($result);
+  return $result;
+}
+
+function get_subject_by_id($id) {
+  global $db;
+  $sql = "SELECT * FROM subjects
+    WHERE id = '$id'
   ";
   $result_set = $db->query($sql);
   confirm_result_set($result_set);
