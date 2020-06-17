@@ -43,4 +43,20 @@ function get_page_by_id($id) {
   return $result_set;
 }
 
+function insert_subject($menu_name, $position, $visible) {
+  global $db;
+  $sql = "
+    INSERT INTO subjects (menu_name, position, visible)
+    VALUES ('$menu_name', '$position', '$visible')
+  ";
+  $result = $db->query($sql);
+  if ($result) {
+    return true;
+  } else {
+    // INSERT failed
+    echo $db->error;
+    db_disconnect($db);
+  }
+}
+
 ?>
