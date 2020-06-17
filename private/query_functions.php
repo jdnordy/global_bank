@@ -31,4 +31,16 @@ function find_all_pages() {
   confirm_result_set($result_set);
   return $result_set;
 }
+
+
+function get_page_by_id($id) {
+  global $db;
+  $sql = "SELECT * FROM pages
+   WHERE id = '$id'
+  ";
+  $result_set = $db->query($sql);
+  confirm_result_set($result_set);
+  return $result_set;
+}
+
 ?>

@@ -37,13 +37,7 @@ $subject_set = find_all_subjects();
             <td><?= h($subject['menu_name']) ?></td>
             <td><a 
               class="action"
-              href="<?= url_for(
-                  '/staff/subjects/show.php?id='
-                  . h(u($subject['id']))
-                  . '&name='
-                  . h(u($subject['menu_name'])) 
-                )
-              ?>"
+              href="<?= url_for('/staff/subjects/show.php?id=' . h(u($subject['id']))) ?>"
             >View</a></td>
             <td><a class="action" href="<?= url_for("/staff/subjects/edit.php?id=" . h(u($subject['id'])) . '&name=' . h(u($subject['menu_name']))) ?>">Edit</a></td>
             <td><a class="action" href="">Delete</a></td>
