@@ -22,7 +22,7 @@ include(SHARED_PATH . '/staff_header.php');
 
   <div class="actions">
     <a class="action" href="<?= url_for('staff/subjects/edit.php?id=' . u($id)) ?>">Edit</a>
-    <a class="action" href="<?= url_for('staff/subjects/delete.php?id=' . u($id) . '&name=' . u(h($subject['menu_name']))) ?>">Delete</a>
+    <a class="action" href="<?= url_for('staff/subjects/delete.php?id=' . u($id)) ?>">Delete</a>
   </div>
 
   <h1>Subject: <?= h($subject['menu_name']); ?></h1>

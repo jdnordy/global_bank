@@ -50,7 +50,7 @@ function insert_subject($subject) {
   $visible = $subject['visible'];
   $sql = "
     INSERT INTO subjects (menu_name, position, visible)
-    VALUES ('$menu_name, '$position, '$visible')
+    VALUES ('$menu_name', '$position', '$visible')
   ";
   $result = $db->query($sql);
   if ($result) {
@@ -74,6 +74,24 @@ function update_subject($subject) {
     SET menu_name = '$menu_name', position = '$position', visible = '$visible'
     WHERE id = '$id'
     LIMIT 1;
+  ";
+  $result = $db->query($sql);
+  if ($result) {
+    return true;
+  } else {
+    // INSERT failed
+    echo $db->error;
+    db_disconnect($db);
+    exit;
+  }
+}
+
+function delete_subject_by_id($id) {
+  global $db;
+  $sql = "
+    DELETE FROM subjects
+    WHERE id = '$id'
+    LIMIT 1
   ";
   $result = $db->query($sql);
   if ($result) {
