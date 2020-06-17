@@ -79,7 +79,7 @@ function update_subject($subject) {
   if ($result) {
     return true;
   } else {
-    // INSERT failed
+    // UPDATE failed
     echo $db->error;
     db_disconnect($db);
     exit;
@@ -97,7 +97,7 @@ function delete_subject_by_id($id) {
   if ($result) {
     return true;
   } else {
-    // INSERT failed
+    // DELETE failed
     echo $db->error;
     db_disconnect($db);
     exit;
