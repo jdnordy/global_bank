@@ -2,6 +2,15 @@
 
 <?php $page_title = 'Create Subject'; ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
+<?php 
+// FIND NUMBER OF SUBJECTS IN DATA BASE
+$subject_set = find_all_subjects();
+$subject_count = $subject_set->num_rows + 1;
+$subject_set->free();
+
+$subject = [];
+$subject['position'] = $subject_count;
+?>
 
 <div id="content">
 
@@ -19,7 +28,9 @@
         <dt>Position</dt>
         <dd>
           <select name="position">
-            <option value="1">1</option>
+          <?php for($i = 1; $i <= $subject_count; $i++) : ?>
+            <option <?= $i == $subject['position'] ? 'selected' : '' ?> value="<?= $i ?>"><?= $i ?></option>
+          <?php endfor; ?>
           </select>
         </dd>
       </dl>

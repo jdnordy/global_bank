@@ -5,25 +5,42 @@ if (!isset($_GET['id'])) {
   redirect_to('staff/pages/');
 }
 $id = h($_GET['id']);
-$page_name = '';
-$position = '';
-$visible = '';
 
 if (is_post_request()) {
-  $page_name = isset($_POST['page_name']) ? h($_POST['page_name']) : '';
-  $position = isset($_POST['position']) ? h($_POST['position']) : '';
-  $visible = isset($_POST['visible']) ? h($_POST['visible']) : '';
-  
-  // echo $page_name;
-  // echo $position;
-  // echo $visible;
+  $page = [];
+  $page['page_name'] = $_POST['page_name'] ?? '';
+  $page['subject_id'] = $_POST['subject_id'] ?? 1;
+  $page['position'] = $_POST['position'] ?? 1;
+  $page['visible'] = $_POST['visible'] ?? 1;
+  $page['id'] = $id;
+
+  update_page($page);
+  redirect_to('staff/pages/show.php?id=' . u($id));
+
+} else {
+  // GET PAGE
+  $result = get_page_by_id($id);
+  $page = $result->fetch_assoc();
+  $result->free();
+
+  // GET PAGE COUNT
+  $page_set = find_all_pages();
+  $page_count = 0;
+  while ($curr_page = $page_set->fetch_assoc()) {
+    if ($curr_page['subject_id'] == $page['subject_id']) {
+      $page_count++;
+    }
+  }
+  $page_set->free();
+
+  // GET THE NAMES OF ALL THE SUBJECTS
+  $subject_set = find_all_subjects();
 }
 
 ?>
 
 <?php 
-$name = isset($_GET['page_name']) ? h($_GET['page_name']) : '';
-$page_title = 'Edit Page : ' . $name; 
+$page_title = 'Edit Page : ' . h($page['page_name']); 
 ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
@@ -32,19 +49,29 @@ $page_title = 'Edit Page : ' . $name;
   <a class="back-link" href="<?= url_for('/staff/pages/'); ?>">&laquo; Back to Pages</a>
 
   <div class="pages new">
-    <h1>Edit Page : <?= $name ?></h1>
+    <h1>Edit Page : <?= h($page['page_name']) ?></h1>
 
-    <form action="<?= url_for('staff/pages/edit.php?id=' . u($id)) . '&name=' . $name ?>" method="post">
+    <form action="<?= url_for('staff/pages/edit.php?id=' . u($id)) ?>" method="post">
       <dl>
-        <dt>Menu Name</dt>
-        <dd><input type="text" name="page_name" value="<?= $page_name ?>" /></dd>
+        <dt>Page Name</dt>
+        <dd><input type="text" name="page_name" value="<?= h($page['page_name']) ?>" /></dd>
+      </dl>
+      <dl>
+        <dt>Subject</dt>
+        <dd>
+          <select name="subject_id">
+          <?php while($subject = $subject_set->fetch_assoc()) : ?>
+            <option value="<?= $subject['id']?>" <?= $subject['id'] == $page['subject_id'] ? 'selected' : '' ?>><?= $subject['menu_name'] ?></option>
+          <?php endwhile; ?>
+          </select>
+        </dd>
       </dl>
       <dl>
         <dt>Position</dt>
         <dd>
           <select name="position">
-            <?php for($i = 1; $i <= 4; $i++) : ?>
-              <option <?= $i == $position ? 'selected' : '' ?> value="<?= $i ?>"><?= $i ?></option>
+            <?php for($i = 1; $i <= $page_count; $i++) : ?>
+              <option <?= $i == $page['position'] ? 'selected' : '' ?> value="<?= $i ?>"><?= $i ?></option>
             <?php endfor; ?>
           </select>
         </dd>
@@ -53,7 +80,7 @@ $page_title = 'Edit Page : ' . $name;
         <dt>Visible</dt>
         <dd>
           <input type="hidden" name="visible" value="0" />
-          <input type="checkbox" name="visible" value="1" <?= $visible == '1' ? 'checked' : '' ?>/>
+          <input type="checkbox" name="visible" value="1" <?= $page['visible'] == '1' ? 'checked' : '' ?>/>
         </dd>
       </dl>
       <div id="operations">
@@ -64,5 +91,7 @@ $page_title = 'Edit Page : ' . $name;
   </div>
 
 </div>
+
+<?php $subject_set->free(); ?>
 
 <?php include(SHARED_PATH . '/staff_footer.php'); ?>
