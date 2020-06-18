@@ -16,8 +16,13 @@ if (is_post_request()) {
   $subject['visible'] = $_POST['visible'] ?? '1';
   $subject['id'] = $id;
 
-  update_subject($subject);
-  redirect_to('staff/subjects/show.php?id=' . $id);
+  $result = update_subject($subject);
+  if ($result) {
+    redirect_to('staff/subjects/show.php?id=' . $id);
+  } else {
+    $errors = $results;
+    var_dump($errors);
+  }
 } else {
   // GET SUBJECT DATA FROM DATABASE IF GET REQUEST
   $result = get_subject_by_id($id);

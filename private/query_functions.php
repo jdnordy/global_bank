@@ -118,8 +118,45 @@ function get_subject_by_id($id) {
   return $result_set;
 }
 
+function validate_subject($subject) {
+
+  $errors = [];
+  
+  // MENU_NAME
+  if(is_blank($subject['menu_name'])) {
+    $errors[] = "Name cannot be blank.";
+  }
+  if(!has_length($subject['menu_name'], ['min' => 2, 'max' => 255])) {
+    $errors[] = "Name must be between 2 and 255 characters.";
+  }
+
+  // POSITION
+  // Make sure we are working with an integer
+  $postion_int = (int) $subject['position'];
+  if($postion_int <= 0) {
+    $errors[] = "Position must be greater than zero.";
+  }
+  if($postion_int > 999) {
+    $errors[] = "Position must be less than 999.";
+  }
+
+  // VISIBLE
+  // Make sure we are working with a string
+  $visible_str = (string) $subject['visible'];
+  if(!has_inclusion_of($visible_str, ["0","1"])) {
+    $errors[] = "Visible must be true or false.";
+  }
+
+  return $errors;
+}
+
 function insert_subject($subject) {
   global $db;
+
+  // check for valid format and return errors if any
+  $errors = validate_subject($subject);
+  if (!empty($errors)) return $errors;
+
   $menu_name = $subject['menu_name'];
   $position = $subject['position'];
   $visible = $subject['visible'];
@@ -140,6 +177,11 @@ function insert_subject($subject) {
 
 function update_subject($subject) {
   global $db;
+
+  // check for valid format and return errors if any
+  $errors = validate_subject($subject);
+  if (!empty($errors)) return $errors;
+
   $menu_name = $subject['menu_name'];
   $position = $subject['position'];
   $visible = $subject['visible'];
