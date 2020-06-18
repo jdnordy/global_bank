@@ -1,16 +1,37 @@
 <?php require_once('../../../private/initialize.php'); ?>
 
-<?php $page_title = 'Create Subject'; ?>
-<?php include(SHARED_PATH . '/staff_header.php'); ?>
-<?php 
+<?php
+if (is_post_request()) {
+  $subject = [];
+
+  $subject['menu_name'] = $_POST['menu_name'] ?? '';
+  $subject['position'] = $_POST['position'] ?? '1';
+  $subject['visible'] = $_POST['visible'] ?? '1';
+
+
+  $result = insert_subject($subject);
+  if ($result === true) {
+    $new_id = $db->insert_id;
+    redirect_to('staff/subjects/show.php?id=' . $new_id);
+  } else {
+    $errors = $result;
+  }
+} else {
+  $subject = [];
+  $subject['menu_name'] = '';
+  $subject['visible'] = 0;
+}
 // FIND NUMBER OF SUBJECTS IN DATA BASE
 $subject_set = find_all_subjects();
 $subject_count = $subject_set->num_rows + 1;
 $subject_set->free();
 
-$subject = [];
-$subject['position'] = $subject_count;
+$subject['position'] = $subject['position'] ?? $subject_count;
+
 ?>
+
+<?php $page_title = 'Create Subject'; ?>
+<?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="content">
 
@@ -19,10 +40,13 @@ $subject['position'] = $subject_count;
   <div class="subject new">
     <h1>Create Subject</h1>
 
-    <form action="<?= url_for('staff/subjects/create.php') ?>" method="post">
+    <!-- DISPLAY ERRORS FOR FORM -->
+    <?= display_errors($errors) ?>
+
+    <form action="<?= url_for('staff/subjects/new.php') ?>" method="post">
       <dl>
         <dt>Menu Name</dt>
-        <dd><input type="text" name="menu_name" value="" /></dd>
+        <dd><input type="text" name="menu_name" value="<?= $subject['menu_name'] ?>" /></dd>
       </dl>
       <dl>
         <dt>Position</dt>
@@ -38,7 +62,7 @@ $subject['position'] = $subject_count;
         <dt>Visible</dt>
         <dd>
           <input type="hidden" name="visible" value="0" />
-          <input type="checkbox" name="visible" value="1" />
+          <input type="checkbox" name="visible" value="1" <?= $subject['visible'] == 1 ? 'checked' : '' ?>/>
         </dd>
       </dl>
       <div id="operations">
