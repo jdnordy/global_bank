@@ -29,8 +29,56 @@ function get_page_by_id($id) {
   return $result_set;
 }
 
+function validate_page($page) {
+
+  $errors = [];
+  
+  // PAGE_NAME
+  if(is_blank($page['page_name'])) {
+    $errors[] = "Name cannot be blank.";
+  }
+  if(!has_length($page['page_name'], ['min' => 2, 'max' => 255])) {
+    $errors[] = "Name must be between 2 and 255 characters.";
+  }
+
+  // SUBJECT_ID
+  $subject_id_int = (int) $page['subject_id'];
+  global $db;
+  $sql = "
+    SELECT * FROM SUBJECTS
+    WHERE id = '$subject_id_int'
+  ";
+  $result = $db->query($sql);
+  if($result->num_rows !== 1) {
+    $errors[] = "Must be a valid subject.";
+  }
+
+  // POSITION
+  // Make sure we are working with an integer
+  $postion_int = (int) $page['position'];
+  if($postion_int <= 0) {
+    $errors[] = "Position must be greater than zero.";
+  }
+  if($postion_int > 999) {
+    $errors[] = "Position must be less than 999.";
+  }
+
+  // VISIBLE
+  // Make sure we are working with a string
+  $visible_str = (string) $page['visible'];
+  if(!has_inclusion_of($visible_str, ["0","1"])) {
+    $errors[] = "Visible must be true or false.";
+  }
+
+  return $errors;
+}
+
 function insert_page($page) {
   global $db;
+
+  $errors = validate_page($page);
+  if (!empty($errors)) return $errors;
+
   $page_name = $page['page_name'];
   $subject_id = $page['subject_id'];
   $position = $page['position'];
@@ -52,6 +100,10 @@ function insert_page($page) {
 
 function update_page($page) {
   global $db;
+
+  $errors = validate_page($page);
+  if (!empty($errors)) return $errors;
+
   $page_name = $page['page_name'];
   $subject_id = $page['subject_id'];
   $position = $page['position'];

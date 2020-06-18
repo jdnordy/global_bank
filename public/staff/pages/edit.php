@@ -14,28 +14,32 @@ if (is_post_request()) {
   $page['visible'] = $_POST['visible'] ?? 1;
   $page['id'] = $id;
 
-  update_page($page);
-  redirect_to('staff/pages/show.php?id=' . u($id));
+  $result = update_page($page);
+  if ($result === true) {
+    redirect_to('staff/pages/show.php?id=' . u($id));
+  } else {
+    $errors = $result;
+  }
 
 } else {
   // GET PAGE
   $result = get_page_by_id($id);
   $page = $result->fetch_assoc();
   $result->free();
-
-  // GET PAGE COUNT
-  $page_set = find_all_pages();
-  $page_count = 0;
-  while ($curr_page = $page_set->fetch_assoc()) {
-    if ($curr_page['subject_id'] == $page['subject_id']) {
-      $page_count++;
-    }
-  }
-  $page_set->free();
-
-  // GET THE NAMES OF ALL THE SUBJECTS
-  $subject_set = find_all_subjects();
 }
+
+// GET PAGE COUNT
+$page_set = find_all_pages();
+$page_count = 0;
+while ($curr_page = $page_set->fetch_assoc()) {
+  if ($curr_page['subject_id'] == $page['subject_id']) {
+    $page_count++;
+  }
+}
+$page_set->free();
+
+// GET THE NAMES OF ALL THE SUBJECTS
+$subject_set = find_all_subjects();
 
 ?>
 
@@ -50,6 +54,9 @@ $page_title = 'Edit Page : ' . h($page['page_name']);
 
   <div class="pages new">
     <h1>Edit Page : <?= h($page['page_name']) ?></h1>
+
+    <!-- DISPLAY FORM VALIDATION ERRORS IF ANY -->
+    <?= display_errors($errors) ?>
 
     <form action="<?= url_for('staff/pages/edit.php?id=' . u($id)) ?>" method="post">
       <dl>
