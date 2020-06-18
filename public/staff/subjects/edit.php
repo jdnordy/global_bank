@@ -17,29 +17,29 @@ if (is_post_request()) {
   $subject['id'] = $id;
 
   $result = update_subject($subject);
-  if ($result) {
+  if ($result === true) {
     redirect_to('staff/subjects/show.php?id=' . $id);
   } else {
-    $errors = $results;
-    var_dump($errors);
+    $errors = $result;
+    // var_dump($errors);
   }
 } else {
   // GET SUBJECT DATA FROM DATABASE IF GET REQUEST
   $result = get_subject_by_id($id);
   $subject = $result->fetch_assoc();
   $result->free();
-
-  // FIND NUMBER OF SUBJECTS IN DATA BASE
-  $subject_set = find_all_subjects();
-  $subject_count = $subject_set->num_rows;
-  $subject_set->free();
 }
+
+// FIND NUMBER OF SUBJECTS IN DATA BASE
+$subject_set = find_all_subjects();
+$subject_count = $subject_set->num_rows;
+$subject_set->free();
 
 ?>
 
 <?php 
 // check for param and html escape 
-$page_title = 'Edit Subject : ' . $menu_name; 
+$page_title = 'Edit Subject : ' . $subject['menu_name']; 
 ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
@@ -49,6 +49,9 @@ $page_title = 'Edit Subject : ' . $menu_name;
 
   <div class="subject edit">
     <h1>Edit Subject : <?= h($subject['menu_name']) ?></h1>
+
+    <!-- DISPLAY ERRORS FOR FORM -->
+    <?= display_errors($errors) ?>
 
     <form action="<?= url_for('staff/subjects/edit.php?id=' . u($id)) ?>" method="post">
       <dl>
