@@ -32,25 +32,39 @@ function get_page_by_id($id) {
 function validate_page($page) {
 
   $errors = [];
+  global $db;
   
   // PAGE_NAME
   if(is_blank($page['page_name'])) {
     $errors[] = "Name cannot be blank.";
   }
-  if(!has_length($page['page_name'], ['min' => 2, 'max' => 255])) {
+  else if(!has_length($page['page_name'], ['min' => 2, 'max' => 255])) {
     $errors[] = "Name must be between 2 and 255 characters.";
+  }
+  // check for uniqueness of page name
+  else {
+    $page_name = $page['page_name'];
+    $id = $page['id'];
+    $sql = "
+      SELECT * FROM pages
+      WHERE page_name = '$page_name'
+      AND id != '$id';
+    ";
+    $result = $db->query($sql);
+    if($result->num_rows > 0) {
+      $errors[] = "Name must be unique.";
+    }
   }
 
   // SUBJECT_ID
   $subject_id_int = (int) $page['subject_id'];
-  global $db;
   $sql = "
     SELECT * FROM SUBJECTS
     WHERE id = '$subject_id_int'
   ";
   $result = $db->query($sql);
   if($result->num_rows !== 1) {
-    $errors[] = "Must be a valid subject.";
+    $errors[] = "Subject must be an exisiting subject.";
   }
 
   // POSITION
