@@ -29,4 +29,9 @@ function confirm_result_set($result_set) {
     exit("Database query failed.");
   }
 }
+
+function db_escape($db, $string) {
+  return $db->real_escape_string($string);
+}
+
 ?>
