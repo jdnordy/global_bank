@@ -21,8 +21,9 @@ function find_all_pages() {
 
 function get_page_by_id($id) {
   global $db;
+  $esc_id = db_escape($db, $id);
   $sql = "SELECT * FROM pages
-   WHERE id = '$id'
+   WHERE id = '$esc_id'
   ";
   $result_set = $db->query($sql);
   confirm_result_set($result_set);
@@ -32,25 +33,39 @@ function get_page_by_id($id) {
 function validate_page($page) {
 
   $errors = [];
+  global $db;
   
   // PAGE_NAME
   if(is_blank($page['page_name'])) {
     $errors[] = "Name cannot be blank.";
   }
-  if(!has_length($page['page_name'], ['min' => 2, 'max' => 255])) {
+  else if(!has_length($page['page_name'], ['min' => 2, 'max' => 255])) {
     $errors[] = "Name must be between 2 and 255 characters.";
+  }
+  // check for uniqueness of page name
+  else {
+    $esc_page_name = db_escape($db, $page['page_name']);
+    $esc_id = $page['id'];
+    $sql = "
+      SELECT * FROM pages
+      WHERE page_name = '$esc_page_name'
+      AND id != '$esc_id';
+    ";
+    $result = $db->query($sql);
+    if($result->num_rows > 0) {
+      $errors[] = "Name must be unique.";
+    }
   }
 
   // SUBJECT_ID
-  $subject_id_int = (int) $page['subject_id'];
-  global $db;
+  $esc_subject_id = db_escape($db, $page['subject_id']);
   $sql = "
     SELECT * FROM SUBJECTS
-    WHERE id = '$subject_id_int'
+    WHERE id = '$esc_subject_id'
   ";
   $result = $db->query($sql);
   if($result->num_rows !== 1) {
-    $errors[] = "Must be a valid subject.";
+    $errors[] = "Subject must be an exisiting subject.";
   }
 
   // POSITION
@@ -79,13 +94,13 @@ function insert_page($page) {
   $errors = validate_page($page);
   if (!empty($errors)) return $errors;
 
-  $page_name = $page['page_name'];
-  $subject_id = $page['subject_id'];
-  $position = $page['position'];
-  $visible = $page['visible'];
+  $esc_page_name = db_escape($db, $page['page_name']);
+  $esc_subject_id = db_escape($db, $page['subject_id']);
+  $esc_position = db_escape($db, $page['position']);
+  $esc_visible = db_escape($db, $page['visible']);
   $sql = "
     INSERT INTO pages (page_name, subject_id, position, visible)
-    VALUES ('$page_name', '$subject_id', '$position', '$visible');
+    VALUES ('$esc_page_name', '$esc_subject_id', '$esc_position', '$esc_visible');
   ";
   $result = $db->query($sql);
   if ($result) {
@@ -104,16 +119,16 @@ function update_page($page) {
   $errors = validate_page($page);
   if (!empty($errors)) return $errors;
 
-  $page_name = $page['page_name'];
-  $subject_id = $page['subject_id'];
-  $position = $page['position'];
-  $visible = $page['visible'];
-  $id = $page['id'];
+  $esc_page_name = db_escape($db, $page['page_name']);
+  $esc_subject_id = db_escape($db, $page['subject_id']);
+  $esc_position = db_escape($db, $page['position']);
+  $esc_visible = db_escape($db, $page['visible']);
+  $esc_id = db_escape($db, $page['id']);
 
   $sql = "
     UPDATE pages
-    SET page_name='$page_name', subject_id='$subject_id', position='$position', visible='$visible'
-    WHERE id='$id'
+    SET page_name='$esc_page_name', subject_id='$esc_subject_id', position='$esc_position', visible='$esc_visible'
+    WHERE id='$esc_id'
     LIMIT 1;
   ";
   $result = $db->query($sql);
@@ -129,9 +144,10 @@ function update_page($page) {
 
 function delete_page_by_id($id) {
   global $db;
+  $esc_id = db_escape($db, $id);
   $sql = "
     DELETE FROM pages
-    WHERE id = '$id'
+    WHERE id = '$esc_id'
     LIMIT 1
   ";
   $result = $db->query($sql);
@@ -162,8 +178,9 @@ function find_all_subjects() {
 
 function get_subject_by_id($id) {
   global $db;
+  $esc_id = db_escape($db, $id);
   $sql = "SELECT * FROM subjects
-    WHERE id = '$id'
+    WHERE id = '$esc_id'
   ";
   $result_set = $db->query($sql);
   confirm_result_set($result_set);
@@ -209,12 +226,12 @@ function insert_subject($subject) {
   $errors = validate_subject($subject);
   if (!empty($errors)) return $errors;
 
-  $menu_name = $subject['menu_name'];
-  $position = $subject['position'];
-  $visible = $subject['visible'];
+  $esc_menu_name = db_escape($db, $subject['menu_name']);
+  $esc_position = db_escape($db, $subject['position']);
+  $esc_visible = db_escape($db, $subject['visible']);
   $sql = "
     INSERT INTO subjects (menu_name, position, visible)
-    VALUES ('$menu_name', '$position', '$visible')
+    VALUES ('$esc_menu_name', '$esc_position', '$esc_visible')
   ";
   $result = $db->query($sql);
   if ($result) {
@@ -234,14 +251,14 @@ function update_subject($subject) {
   $errors = validate_subject($subject);
   if (!empty($errors)) return $errors;
 
-  $menu_name = $subject['menu_name'];
-  $position = $subject['position'];
-  $visible = $subject['visible'];
-  $id = $subject['id'];
+  $esc_menu_name = db_escape($db, $subject['menu_name']);
+  $esc_position = db_escape($db, $subject['position']);
+  $esc_visible = db_escape($db, $subject['visible']);
+  $esc_id = db_escape($db, $subject['id']);
   $sql = "
     UPDATE subjects
-    SET menu_name = '$menu_name', position = '$position', visible = '$visible'
-    WHERE id = '$id'
+    SET menu_name = '$esc_menu_name', position = '$esc_position', visible = '$esc_visible'
+    WHERE id = '$esc_id'
     LIMIT 1;
   ";
   $result = $db->query($sql);
@@ -257,9 +274,10 @@ function update_subject($subject) {
 
 function delete_subject_by_id($id) {
   global $db;
+  $esc_id = db_escape($db, $id);
   $sql = "
     DELETE FROM subjects
-    WHERE id = '$id'
+    WHERE id = '$esc_id'
     LIMIT 1
   ";
   $result = $db->query($sql);
